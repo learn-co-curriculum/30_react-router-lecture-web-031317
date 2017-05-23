@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
-function NavBar(props){
+function NavBar(props) {
   const colors = {
     black: 'navbar-inverse',
     white: 'navbar-default'
@@ -13,7 +13,7 @@ function NavBar(props){
       <div className='container-fluid'>
         <div className='navbar-header'>
           <a className='navbar-brand'>
-            { props.title }
+            {props.title}
           </a>
         </div>
 
