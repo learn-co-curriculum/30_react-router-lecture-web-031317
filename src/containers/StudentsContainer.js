@@ -1,38 +1,65 @@
 import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
 
 import StudentList from '../components/StudentList'
 import StudentForm from '../components/StudentForm'
+import Student from '../components/Student'
+import AddStudentButton from '../components/AddStudentButton'
 
-import { fetchStudents, createStudent }  from '../api'
+import { fetchStudents, createStudent } from '../api'
 
 class StudentsContainer extends Component {
 
-  constructor(){
+  constructor() {
     super()
     this.state = {
-      names: []
+      //names: [],
+      students: [],
     }
-
   }
 
-  componentDidMount(){
+  componentDidMount() {
     fetchStudents()
       .then( data => this.setState({
-        names: data.map(student => student.name )
+        students: data.map(student => ({id: student.id, name: student.name}) )
       }) )
   }
 
-  handleAddStudent(name){
-    this.setState( prevState =>  ({ names: [...prevState.names, name] }) )
+  handleAddStudent(name) {
     createStudent(name)
-      .catch(e => this.setState(prevState => ({names: prevState.names.filter(person => person !== name)})))
+
+    this.setState( prevState => {
+      return {
+        students: [...prevState.students, {name: name}]
+      }
+    })
   }
 
-  render(){
+
+  render() {
     return (
       <div>
-        < StudentList students={this.state.names} />
-        < StudentForm  onSubmit={ this.handleAddStudent.bind(this) }/>
+        <Switch>
+          <Route exact path='/students'
+            render={ () => <StudentList students={this.state.students} /> }
+          />
+          <Route exact path='/students/new'
+          render={ () => {
+            return (
+              <StudentForm onSubmit={ this.handleAddStudent.bind(this) }/>
+            )
+          }}
+        />
+          <Route path='/students/:id'
+          render={ routeProps => {
+            return (
+              <Student students={this.state.students} {...routeProps} />
+            )}
+          }
+          />
+        </Switch>
+
+        <AddStudentButton />
       </div>
     )
   }

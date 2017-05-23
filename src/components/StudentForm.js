@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 
-export default class StudentForm extends React.Component {
+class StudentForm extends React.Component {
 
-  constructor(props){
+  //constructor(props){
+  constructor() {
     super()
     this.state = { student: ''}
 
@@ -10,19 +11,20 @@ export default class StudentForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleInputChange(e){
+  handleInputChange(e) {
     this.setState({
       student: e.target.value
     })
   }
 
-  handleSubmit(e){
+  handleSubmit(e) {
     e.preventDefault()
     this.props.onSubmit( this.state.student )
     this.setState({student: ''})
+    window.history.pushState('/students') //adding this
   }
 
-  render(){
+  render() {
     return (
       <div className='col-md-8' >
         <form onSubmit={this.handleSubmit.bind(this)}>
@@ -34,3 +36,5 @@ export default class StudentForm extends React.Component {
     )
   }
 }
+
+export default StudentForm

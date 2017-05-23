@@ -11,5 +11,6 @@ export function createStudent(name){
     },
     method: 'POST',
     body: JSON.stringify( {student: {name: name}} )
-  })
+  }).then(response => response.json() )
+  .then(data => console.log(data) )
 }
