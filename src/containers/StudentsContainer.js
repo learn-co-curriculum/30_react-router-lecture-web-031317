@@ -53,7 +53,10 @@ class StudentsContainer extends Component {
           <Route path='/students/:id'
           render={ routeProps => {
             return (
-              <Student students={this.state.students} {...routeProps} />
+              <div>
+                <StudentList students={this.state.students} />
+                <Student students={this.state.students} {...routeProps} />
+              </div>
             )}
           }
           />
