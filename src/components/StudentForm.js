@@ -21,7 +21,7 @@ class StudentForm extends React.Component {
     e.preventDefault()
     this.props.onSubmit( this.state.student )
     this.setState({student: ''})
-    window.history.pushState('/students') //adding this
+    //window.history.pushState('/students') //adding this
   }
 
   render() {
