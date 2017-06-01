@@ -8,7 +8,6 @@ class StudentsContainer extends Component {
 
   constructor(){
     super()
-    console.log("constructor!")
     this.state = {
       students: []
     }
@@ -23,12 +22,13 @@ class StudentsContainer extends Component {
       .then( students => this.setState({
         students: students
       }) )
+      .catch( err => console.log(err) )
   }
 
   handleAddStudent(name){
     createStudent(name)
       .then( student => this.setState( prevState =>  ({ students: [...prevState.students, student] }) ))
-      .catch(e => console.log(e))
+      .catch(err => console.log(err))
   }
 
   handleDeleteStudent(id){
@@ -60,7 +60,6 @@ class StudentsContainer extends Component {
   }
 
   render(){
-    console.log(this.state)
     return (
       < StudentsPage students={this.state.students} onSubmit={this.handleAddStudent} onDelete={this.handleDeleteStudent} onUpdate={this.handleUpdateStudent}/>
     )
