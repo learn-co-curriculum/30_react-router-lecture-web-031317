@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
 import NavBar from './NavBar'
 import LoginForm from './LoginForm'
@@ -10,16 +10,21 @@ import isAuthenticated from './hocs/isAuthenticated'
 
 const AuthedStudentsContainer = isAuthenticated(StudentsContainer)
 
-export default class Main extends Component {
+class Main extends Component {
+
+  constructor(props){
+    super(props)
+    this.handleLogin = this.handleLogin.bind(this)
+  }
 
   handleLogin(params){
     logIn(params)
       .then(res => {
+        if (res.error) {
+          return
+        }
         localStorage.setItem('jwt', res.token)
-        this.props.histroy.push('/students')
-        // this.setState({
-        //   loggedIn: true
-        // })
+        this.props.history.push('/students')
       })
   }
 
@@ -28,7 +33,7 @@ export default class Main extends Component {
       <div>
         < NavBar title="Dog and Student Lister" color="black" />
         <Switch>
-          < Route path="/login" render={() => <LoginForm handleLogin={this.handleLogin}/>} />
+          < Route path="/login" render={() => <LoginForm handleLogin={this.handleLogin} />} />
           < Route path="/students" component={AuthedStudentsContainer} />
           < Route exact path="/about"  render={() => <h1>This is an app about dogs and students</h1>}/>
         </Switch>
@@ -36,3 +41,5 @@ export default class Main extends Component {
     )
   }
 }
+
+export default withRouter(Main)
